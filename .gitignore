@@ -1,0 +1,6 @@
+.env
+.idea
+dist
+dist/*
+OctoPrintMonitor.egg-info
+.DS_Store
