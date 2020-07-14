@@ -1,0 +1,19 @@
+{
+  "wifi_config": {
+    "ssid": "CHANGEME_WIFI_SSID",
+    "wifi_pass": "CHANGEME_WIFI_PASSWORD"
+  },
+  "octoprint_config": {
+    "octoprint_base_url": "CHANGE_ME_BASEURL",
+    "api_key": "CHANGEME_OCTOPRINT_API_KEY"
+  },
+  "lcd_config": {
+    "sck": "18",
+    "mosi": "23",
+    "miso": "19",
+    "bl": "27",
+    "cs": "5",
+    "dc": "19",
+    "rst": "14"
+  }
+}

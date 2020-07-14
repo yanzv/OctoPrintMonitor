@@ -1,0 +1,3 @@
+ujson
+adafruit_ampy
+urequests
