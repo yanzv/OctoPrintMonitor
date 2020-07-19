@@ -7,6 +7,16 @@ import network
 from octoprint_client import OctoPrintClient
 
 
+def seconds_to_time(seconds: int):
+    if seconds is None:
+        return "---"
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    if hours == 0 and minutes == 0:
+        return "%02d:%02d" % (minutes, seconds)
+    return "%02d:%02d" % (hours, minutes)
+
+
 class OctoPrintMonitor:
 
     def __init__(self, config_file='_config.json'):
@@ -67,8 +77,8 @@ class OctoPrintMonitor:
             while wlan_connect.status() != network.STAT_GOT_IP:
                 sleep(1)
 
-            self.lcd.text(txt='Connecting to', clear_screen=True)
-            self.lcd.text(txt='OctoPrint', y=2)
+            self.lcd.text('Connecting to', clear_screen=True)
+            self.lcd.text('OctoPrint', y=2)
             self.octoprint_client = OctoPrintClient(octoprint_url=self.octoprint_url,
                                                     api_key=self.api_key)
             octoprint_version = self.octoprint_client.get_version_info()
@@ -76,12 +86,25 @@ class OctoPrintMonitor:
             self.lcd.text('Connected:', clear_screen=True)
             self.lcd.text(str(octoprint_version['text']), y=2)
 
-    def show_info(self, octoprint_job_info=None):
-        if octoprint_job_info is None:
-            octoprint_job_info = {}
+    def show_info(self):
+        octoprint_job_info = self.octoprint_client.get_job_info()
+        if octoprint_job_info['progress']['printTime'] is None:
+            print_time = "-"
+        else:
+            print_time = seconds_to_time(octoprint_job_info['progress']['printTime'])
+        if octoprint_job_info['progress']['printTimeLeft'] is None:
+            time_left = "-"
+        else:
+            time_left = seconds_to_time(octoprint_job_info['progress']['printTimeLeft'])
 
-        self.lcd.text(str(octoprint_job_info['progress']['printTime']))
+        self.lcd.text('Print Time', clear_screen=True)
+        self.lcd.text(print_time, x=1, y=1)
+        self.lcd.text('Time left', y=3)
+        self.lcd.text(time_left, x=1, y=4)
 
 
-if __name__ == '__main__':
-    octoprint_monitor = OctoPrintMonitor()
+# if __name__ == '__main__':
+octoprint_monitor = OctoPrintMonitor()
+while True:
+    octoprint_monitor.show_info()
+    sleep(10)
