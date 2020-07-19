@@ -7,9 +7,7 @@ import network
 from octoprint_client import OctoPrintClient
 
 
-def seconds_to_time(seconds: int):
-    if seconds is None:
-        return "---"
+def seconds_to_time(seconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     if hours == 0 and minutes == 0:
@@ -103,8 +101,8 @@ class OctoPrintMonitor:
         self.lcd.text(time_left, x=1, y=4)
 
 
-# if __name__ == '__main__':
-octoprint_monitor = OctoPrintMonitor()
-while True:
-    octoprint_monitor.show_info()
-    sleep(10)
+if __name__ == '__main__':
+    octoprint_monitor = OctoPrintMonitor()
+    while True:
+        octoprint_monitor.show_info()
+        sleep(10)
