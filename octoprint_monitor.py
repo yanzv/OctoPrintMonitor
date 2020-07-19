@@ -100,9 +100,7 @@ class OctoPrintMonitor:
         self.lcd.text('Time left', y=3)
         self.lcd.text(time_left, x=1, y=4)
 
-
-if __name__ == '__main__':
-    octoprint_monitor = OctoPrintMonitor()
-    while True:
-        octoprint_monitor.show_info()
-        sleep(10)
+    def start(self):
+        while True:
+            self.show_info()
+            sleep(10)
